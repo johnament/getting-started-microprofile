@@ -16,6 +16,7 @@ public class PublishBookService {
     private AuthorService authorService;
     @Inject
     private EntityManager entityManager;
+    
     @Timeout(500)
     public BookId publish(PublishBook publishBook) {
         if(!publishBook.getAuthor().equals(jsonWebToken.getSubject())) {
@@ -31,4 +32,5 @@ public class PublishBookService {
         Book book = entityManager.merge(new Book(publishBook.getIsbn(), publishBook.getAuthor()));
         return new BookId(book.getIsbn(), book.getAuthor());
     }
+
 }
