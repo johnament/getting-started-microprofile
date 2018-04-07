@@ -26,7 +26,7 @@ Because MicroProfile provides only an interface, it's necessary to run the built
 
 The book service requires the following configuration values to be known to the MicroProfile container:
 
-- `author.service.url` - the base URL of author service
+- `ws.ament.microprofile.gettingstarted.AuthorService/mp-rest/url` - the base URL of author service
 
 The following properties can be optionally defined:
 
