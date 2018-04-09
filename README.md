@@ -40,3 +40,21 @@ Run a mock author REST service that listens on port 8081 (requires maven version
 ```
 mvn -Dport=8081 org.codehaus.gmaven:groovy-maven-plugin:execute@author-service
 ```
+
+## An example how to run with Payara Micro
+
+Payara Micro is one of the MicroProfile implementations. It can run standard WAR files. It doesn't require any special set up to get started - it's just a JAR file that you can execute with the `java` command.
+
+First, build a WAR file as described earlier.
+
+Then download Payara Micro v182 or later from [https://www.payara.fish/downloads](https://www.payara.fish/downloads) and save it into the directory `target` in the project as `payara-micro.jar`.
+
+Switch to the `target` directory and execute the following command line:
+
+```
+java -D'ws.ament.microprofile.gettingstarted.AuthorService/mp-rest/url=http://localhost:8081' -jar payara-micro.jar microprofile-get-started.war
+```
+
+Then access the URL [http://localhost:8080/microprofile-get-started/api/books](http://localhost:8080/microprofile-get-started/api/books) to access the `BooksController` REST endpoint. You should see "HTTP Status 401 - Unauthorized" because the resource is secured with the JWT mechanism.
+
+In order to authenticate and access the service, you also need to generate a JWT token and use it when with the REST call. Consult [Payara documentation about JWT](https://docs.payara.fish/documentation/microprofile/jwt.html) how to do that.
