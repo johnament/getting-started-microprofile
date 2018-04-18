@@ -11,12 +11,13 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
 public class AuthorService {
     @Inject
-    @ConfigProperty(name = "author.service.url")
-    private String authorUrl;
+    @RestClient
+    AuthorConnector authorConnector;
 
     private ConcurrentMap<String, Author> authorCache = new ConcurrentHashMap<>();
 
@@ -24,12 +25,7 @@ public class AuthorService {
     @CircuitBreaker
     @Fallback(fallbackMethod = "getCachedAuthor")
     public Author findAuthor(String id) {
-        Author author = ClientBuilder.newClient()
-                .target(authorUrl)
-                .path("/{id}")
-                .resolveTemplate("id", id)
-                .request(MediaType.APPLICATION_JSON)
-                .get(Author.class);
+        Author author = authorConnector.get(id);
         authorCache.put(id, author);
         return author;
     }

@@ -3,6 +3,7 @@ package ws.ament.microprofile.gettingstarted;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,6 +11,7 @@ import javax.ws.rs.PathParam;
 
 @Path("/api/books")
 @Counted
+@RequestScoped
 public class BooksController {
     @Inject
     private BookService bookService;
